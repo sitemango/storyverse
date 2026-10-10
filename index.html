@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#11100f">
+  <meta name="description" content="Fifteen Seconds — an interactive manga about time, access, and the small choices that shape a city.">
+  <meta property="og:title" content="Fifteen Seconds — A StoryVerse project">
+  <meta property="og:description" content="A city should not ask people to become faster. It should learn to become fairer.">
+  <meta property="og:type" content="website">
+  <title>Fifteen Seconds — A StoryVerse project</title>
+  <link rel="icon" type="image/svg+xml" href="assets/icons/signal.svg">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#ch-01">Skip the opening and enter the story</a>
+
+  <div class="loading-screen" id="loading-screen" role="status" aria-live="polite">
+    <div class="loader-mark" aria-hidden="true">
+      <span class="loader-post"></span>
+      <span class="loader-lamp loader-lamp--one"></span>
+      <span class="loader-lamp loader-lamp--two"></span>
+      <span class="loader-lamp loader-lamp--three"></span>
+      <span class="loader-crossing"></span>
+    </div>
+    <p class="loader-number">15</p>
+    <p class="loader-caption">Loading the city<span class="ellipsis" aria-hidden="true">...</span></p>
+  </div>
+
+  <section class="opening" id="opening" aria-label="Story opening">
+    <div class="opening-grain" aria-hidden="true"></div>
+    <div class="opening-signal" aria-hidden="true">
+      <span class="signal-halo"></span>
+      <span class="signal-dot"></span>
+      <span class="signal-stem"></span>
+    </div>
+    <div class="opening-count-wrap" aria-live="off">
+      <span class="opening-count-label">THE WALK SIGNAL</span>
+      <p class="opening-count" id="opening-count" role="timer" aria-label="Pedestrian countdown">15</p>
+      <span class="opening-count-caption">SECONDS TO CROSS</span>
+    </div>
+    <div class="opening-title" id="opening-title" aria-hidden="true" inert>
+      <p class="opening-kicker">A STORY ABOUT THE TIME WE TAKE FROM EACH OTHER</p>
+      <h1>FIFTEEN<br><span>SECONDS</span></h1>
+      <p class="opening-line opening-line--first">A city gave everyone the same amount of time.</p>
+      <p class="opening-line opening-line--second">But it forgot that people move differently.</p>
+      <button class="begin-button" id="begin-story" type="button" disabled>
+        <span>BEGIN</span><span class="button-arrow" aria-hidden="true">↘</span>
+      </button>
+      <span class="opening-credit">AN INTERACTIVE STORYVERSE EXPERIENCE · 2026</span>
+    </div>
+    <p class="opening-honk" id="opening-honk" aria-hidden="true">HONK!</p>
+    <p class="opening-silence" id="opening-silence" aria-hidden="true">— SILENCE —</p>
+    <button class="skip-intro" id="skip-intro" type="button">Skip intro <span aria-hidden="true">↗</span></button>
+  </section>
+
+  <header class="story-interface" id="story-interface" aria-label="Story controls" aria-hidden="true" inert>
+    <a class="interface-brand" href="#ch-01" aria-label="Fifteen Seconds, return to chapter one">
+      <span class="brand-mark" aria-hidden="true">15<span>.</span></span>
+      <span class="brand-words">FIFTEEN<br>SECONDS</span>
+    </a>
+    <div class="interface-chapter" aria-live="polite">
+      <span class="interface-overline">NOW READING</span>
+      <span class="interface-chapter-name" id="current-chapter-name">01 — THE CROSSING</span>
+      <span class="interface-progress-track"><span id="interface-progress-fill"></span></span>
+    </div>
+    <div class="interface-actions">
+      <button class="ui-button sound-toggle" id="sound-toggle" type="button" aria-pressed="false" aria-label="Turn city sound on">
+        <span class="sound-icon" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="button-word">SOUND <span id="sound-state">OFF</span></span>
+      </button>
+      <button class="ui-button menu-toggle" id="menu-toggle" type="button" aria-expanded="false" aria-controls="contents-panel">
+        <span class="menu-lines" aria-hidden="true"><i></i><i></i></span>
+        <span class="button-word">CONTENTS</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="chapter-readout" id="chapter-readout" aria-hidden="true">
+    <span id="readout-current">01</span><span class="readout-divider"></span><span>10</span>
+    <span class="readout-label">CHAPTER</span>
+  </div>
+
+  <div class="contents-backdrop" id="contents-backdrop" hidden></div>
+  <nav class="contents-panel" id="contents-panel" aria-label="Story chapters" aria-hidden="true" inert>
+    <div class="contents-head">
+      <div>
+        <span class="chapter-index">THE STORY</span>
+        <h2>Table of<br><em>contents.</em></h2>
+      </div>
+      <button class="contents-close" id="contents-close" type="button" aria-label="Close contents">×</button>
+    </div>
+    <ol class="contents-list">
+      <li><a href="#ch-01"><span>01</span> The crossing</a></li>
+      <li><a href="#ch-02"><span>02</span> Fifteen seconds</a></li>
+      <li><a href="#ch-03"><span>03</span> Look again</a></li>
+      <li><a href="#ch-04"><span>04</span> The average human</a></li>
+      <li><a href="#ch-05"><span>05</span> The mirror</a></li>
+      <li><a href="#ch-06"><span>06</span> The numbers</a></li>
+      <li><a href="#ch-07"><span>07</span> Give them 15 seconds</a></li>
+      <li><a href="#ch-08"><span>08</span> The second person</a></li>
+      <li><a href="#ch-09"><span>09</span> 34 seconds</a></li>
+      <li><a href="#ch-10"><span>10</span> The city</a></li>
+    </ol>
+    <p class="contents-shortcuts"><kbd>P</kbd> presentation mode <span>·</span> <kbd>E</kbd> start over</p>
+  </nav>
+  <div class="presentation-badge" id="presentation-badge" aria-hidden="true">PRESENTATION MODE <span>· PRESS P TO EXIT</span></div>
+  <div class="screen-reader-only" id="announcer" aria-live="polite" aria-atomic="true"></div>
+
+  <main class="story" id="story" aria-label="Fifteen Seconds interactive manga" aria-hidden="true" inert>
+    <section class="chapter crossing-chapter" id="ch-01" data-chapter="1" tabindex="-1" aria-labelledby="chapter-01-title">
+      <div class="crossing-backdrop" aria-hidden="true">
+        <img src="assets/crossing-opening.jpg" alt="" fetchpriority="high" width="1376" height="768">
+      </div>
+      <div class="crossing-shade" aria-hidden="true"></div>
+      <div class="speed-ink speed-ink--one" aria-hidden="true"></div>
+      <div class="speed-ink speed-ink--two" aria-hidden="true"></div>
+      <div class="chapter-inner crossing-inner">
+        <div class="crossing-copy reveal-on-view">
+          <p class="chapter-index chapter-index--light"><span>01</span> / 10 <i></i> EVERY MORNING</p>
+          <h2 id="chapter-01-title">THE<br><em>CROSSING.</em></h2>
+          <p class="crossing-intro">The same road.<br>The same fifteen seconds.</p>
+          <p class="crossing-small">Tara and Dadu have crossed here every morning for years.<br>Today, you decide when they step off the curb.</p>
+        </div>
+        <div class="crossing-interface reveal-on-view">
+          <div class="signal-panel">
+            <span class="signal-panel-label">PEDESTRIAN SIGNAL</span>
+            <button class="signal-button" id="crossing-signal" type="button" aria-label="Start the pedestrian crossing timer" aria-pressed="false">
+              <span class="traffic-light" aria-hidden="true">
+                <i class="lamp lamp--red active"></i>
+                <i class="lamp lamp--amber"></i>
+                <i class="lamp lamp--green"></i>
+              </span>
+              <span class="signal-button-copy" id="signal-button-copy">TAP WHEN IT TURNS</span>
+            </button>
+            <div class="crossing-timer" id="crossing-timer" aria-live="off">
+              <span class="timer-number" id="crossing-seconds">15</span>
+              <span class="timer-unit">SECONDS</span>
+            </div>
+            <p class="timer-instruction" id="timer-instruction">A small green light.<br>A very large expectation.</p>
+          </div>
+          <p class="crossing-dialogue" id="crossing-dialogue" role="status" hidden>
+            <span>“Maine kya galat kiya?”</span>
+            <small>What did I do wrong?</small>
+          </p>
+        </div>
+        <div class="crossing-bottom-note">
+          <span class="tiny-crosswalk" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+          <span>SCROLL WHEN YOU'RE READY</span>
+          <span class="crossing-bottom-line" aria-hidden="true"></span>
+        </div>
+      </div>
+      <span class="image-credit">ORIGINAL STORY ART · THE MORNING CROSSING</span>
+    </section>
+
+    <section class="chapter comparison-chapter paper-chapter" id="ch-02" data-chapter="2" aria-labelledby="chapter-02-title">
+      <div class="chapter-inner comparison-inner">
+        <div class="chapter-heading reveal-on-view">
+          <p class="chapter-index"><span>02</span> / 10 <i></i> THE SAME DISTANCE</p>
+          <h2 id="chapter-02-title">FIFTEEN<br><em>SECONDS.</em></h2>
+          <p class="chapter-deck">A crossing does not change.<br><strong>The person crossing does.</strong></p>
+        </div>
+        <div class="comparison-workspace reveal-on-view">
+          <div class="pace-list" role="group" aria-label="Choose a pedestrian to experience their crossing">
+            <button class="pace-choice" type="button" data-pace="11" data-person="Young student" aria-pressed="false">
+              <span class="pace-index">A</span><span class="pace-person">Young student</span><span class="pace-time">11 <small>SEC</small></span><span class="pace-arrow" aria-hidden="true">↗</span>
+            </button>
+            <button class="pace-choice" type="button" data-pace="17" data-person="Carrying groceries" aria-pressed="false">
+              <span class="pace-index">B</span><span class="pace-person">Carrying groceries</span><span class="pace-time">17 <small>SEC</small></span><span class="pace-arrow" aria-hidden="true">↗</span>
+            </button>
+            <button class="pace-choice" type="button" data-pace="24" data-person="Parent and child" aria-pressed="false">
+              <span class="pace-index">C</span><span class="pace-person">Parent + child</span><span class="pace-time">24 <small>SEC</small></span><span class="pace-arrow" aria-hidden="true">↗</span>
+            </button>
+            <button class="pace-choice" type="button" data-pace="27" data-person="Elderly pedestrian" aria-pressed="false">
+              <span class="pace-index">D</span><span class="pace-person">Elderly pedestrian</span><span class="pace-time">27 <small>SEC</small></span><span class="pace-arrow" aria-hidden="true">↗</span>
+            </button>
+            <button class="pace-choice" type="button" data-pace="31" data-person="Pedestrian with mobility difficulty" aria-pressed="false">
+              <span class="pace-index">E</span><span class="pace-person">Mobility difficulty</span><span class="pace-time">31 <small>SEC</small></span><span class="pace-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
+          <div class="crossing-simulation" id="crossing-simulation" role="group" aria-label="Crossing simulation">
+            <div class="simulation-topline"><span>ONE CROSSING</span><span>ONE TIMER</span></div>
+            <div class="simulation-skyline" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+            <div class="simulation-road">
+              <div class="simulation-zebra" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+              <div class="simulation-route" aria-hidden="true"></div>
+              <svg class="simulation-person" id="simulation-person" viewBox="0 0 46 92" aria-hidden="true">
+                <circle cx="23" cy="12" r="9" fill="currentColor"/>
+                <path d="M15 24 Q23 20 31 24 L35 51 L29 55 L31 83 L24 83 L21 58 L17 83 L10 83 L13 53 L8 49Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+                <path d="M13 31 L3 52 M30 31 L42 45" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+              </svg>
+              <span class="simulation-status" id="simulation-status">Choose a pace to begin.</span>
+            </div>
+            <div class="simulation-bottomline"><span>START</span><span class="simulation-timer">15 <small>SEC</small></span><span>OTHER SIDE</span></div>
+          </div>
+        </div>
+        <div class="comparison-conclusion" id="comparison-conclusion" aria-live="polite">
+          <span class="conclusion-rule"></span>
+          <p><b>15 SEC</b><span>Equal does not always mean <em>fair.</em></span></p>
+          <span class="conclusion-mark" aria-hidden="true">≠</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="chapter look-again-chapter" id="ch-03" data-chapter="3" aria-labelledby="chapter-03-title">
+      <div class="chapter-inner look-again-inner">
+        <div class="look-again-heading reveal-on-view">
+          <div>
+            <p class="chapter-index chapter-index--light"><span>03</span> / 10 <i></i> OBSERVE</p>
+            <h2 id="chapter-03-title">LOOK<br><em>AGAIN.</em></h2>
+          </div>
+          <p class="look-again-prompt">At first, it is just a street.<br><strong>Tap what you notice.</strong></p>
+        </div>
+        <div class="street-evidence reveal-on-view">
+          <div class="evidence-label"><span>FIELD NOTE 03A</span><span>AN ORDINARY MORNING · PUNE</span></div>
+          <div class="street-illustration" id="street-illustration">
+            <svg class="street-scene" viewBox="0 0 1200 690" role="img" aria-labelledby="street-scene-title street-scene-description" preserveAspectRatio="xMidYMid slice">
+              <title id="street-scene-title">An ordinary Indian street, looked at more closely</title>
+              <desc id="street-scene-description">An ink illustration of an Indian neighborhood street with apartments, a shop, a bus, auto rickshaw, scooters, an obstructed footpath and ramp, a zebra crossing, and a public bin.</desc>
+              <defs>
+                <pattern id="street-dots" width="7" height="7" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r=".8" fill="#1c1b19" opacity=".22"/></pattern>
+                <pattern id="paving" width="42" height="26" patternUnits="userSpaceOnUse"><path d="M0 0H42M0 0V26M21 0V26" fill="none" stroke="#2c2a27" stroke-width="1" opacity=".27"/></pattern>
+                <linearGradient id="street-sky" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#d7d0c3"/><stop offset="1" stop-color="#ece6d9"/></linearGradient>
+              </defs>
+              <rect width="1200" height="690" fill="url(#street-sky)"/>
+              <path d="M0 0H234L267 365H0Z" fill="#b8b1a6" stroke="#1b1a18" stroke-width="5"/>
+              <path d="M234 0H427L452 365H264Z" fill="#d4cdbf" stroke="#1b1a18" stroke-width="5"/>
+              <path d="M739 0H960L925 365H715Z" fill="#bcb4a8" stroke="#1b1a18" stroke-width="5"/>
+              <path d="M960 0H1200V365H925Z" fill="#d8d0c2" stroke="#1b1a18" stroke-width="5"/>
+              <path d="M20 33H188V164H20ZM24 191H182V315H24ZM290 39H399V135H290ZM289 164H405V274H289ZM761 43H895V166H761ZM752 190H890V305H752ZM1001 30H1168V155H1001ZM1002 183H1171V308H1002Z" fill="#eeeadf" stroke="#252320" stroke-width="5"/>
+              <g fill="#79746b" stroke="#252320" stroke-width="4">
+                <path d="M42 54H80V141H42ZM103 54H164V91H103ZM103 104H164V141H103ZM309 55H378V118H309ZM309 180H378V253H309ZM781 60H873V144H781ZM777 208H871V282H777ZM1020 50H1090V136H1020ZM1110 50H1150V136H1110ZM1021 200H1082V281H1021ZM1100 200H1150V281H1100Z"/>
+              </g>
+              <path d="M0 307H1200V352H0Z" fill="#262421"/>
+              <path d="M85 303L143 258H221L278 303Z" fill="#8d4030" stroke="#211f1c" stroke-width="5"/>
+              <path d="M104 304V258H259V304" fill="#e5ded0" stroke="#211f1c" stroke-width="4"/>
+              <path d="M120 276H239" stroke="#26231f" stroke-width="5"/>
+              <text x="145" y="297" fill="#24211f" font-family="Georgia,serif" font-size="22" font-weight="bold">CHAI</text>
+              <path d="M440 364H748V430H434Z" fill="#786f61" stroke="#22201d" stroke-width="5"/>
+              <path d="M449 373H730V412H449Z" fill="#d8d1c4" stroke="#252320" stroke-width="3"/>
+              <path d="M463 380H499V405H463ZM512 380H548V405H512ZM561 380H597V405H561ZM610 380H646V405H610ZM659 380H695V405H659Z" fill="#282522"/>
+              <path d="M451 420H741" stroke="#221f1b" stroke-width="5"/>
+              <circle cx="492" cy="431" r="20" fill="#d3ccc0" stroke="#221f1b" stroke-width="5"/><circle cx="692" cy="431" r="20" fill="#d3ccc0" stroke="#221f1b" stroke-width="5"/>
+              <path d="M0 363H1200V458H0Z" fill="#c6beb1" stroke="#24221e" stroke-width="4"/>
+              <path d="M0 364H1200V455H0Z" fill="url(#paving)" opacity=".8"/>
+              <path d="M0 455L1200 438V690H0Z" fill="#403e3a" stroke="#211f1c" stroke-width="5"/>
+              <path d="M0 485L1200 470" stroke="#dfd9cb" stroke-width="3" stroke-dasharray="42 32" opacity=".7"/>
+              <path d="M770 470L836 469L946 681H837Z M865 469L931 468L1042 681H934Z M961 467L1027 466L1138 681H1031Z M1057 466L1123 464L1200 610V690H1125Z" fill="#e7e1d5" stroke="#1b1a18" stroke-width="4"/>
+              <path d="M483 443L523 443L523 465L483 465Z" fill="#a9a194" stroke="#282521" stroke-width="4"/>
+              <path d="M483 443L506 423L530 443" fill="#c1b9ab" stroke="#282521" stroke-width="4"/>
+              <path d="M526 445L534 438L540 447L547 439L554 449" fill="none" stroke="#26231f" stroke-width="4"/>
+              <path d="M985 361H1026V429H985Z" fill="#252320" stroke="#e0d9cc" stroke-width="4"/>
+              <path d="M979 357H1032V370H979Z" fill="#252320"/><circle cx="1005" cy="382" r="8" fill="#a74732"/><circle cx="1005" cy="405" r="7" fill="#b7ae9e"/>
+              <g fill="none" stroke="#211f1c" stroke-width="5" stroke-linecap="round">
+                <path d="M310 369V342Q310 325 326 325Q342 325 342 342V369M310 347H342M320 369V354M334 369V354"/>
+                <path d="M1118 361V326M1097 327Q1118 310 1139 327L1132 341H1104Z"/>
+                <path d="M207 354Q217 336 229 354M206 354H230M217 354V330"/>
+              </g>
+              <g class="street-bike" stroke="#201e1b" stroke-width="5" fill="#a99f90">
+                <circle cx="85" cy="374" r="17" fill="#383632"/><circle cx="155" cy="374" r="17" fill="#383632"/>
+                <path d="M83 371L104 347H133L155 372L125 372L109 352L99 372Z"/><path d="M108 345L116 335L135 335" fill="none"/>
+                <path d="M95 334Q111 314 130 333L134 347H103Z" fill="#262421"/><circle cx="123" cy="324" r="10" fill="#e4dccf"/>
+              </g>
+              <g transform="translate(288 345)" stroke="#211f1c" stroke-width="5">
+                <path d="M0 23L33 0H94L126 23V48H0Z" fill="#bd6b45"/><path d="M36 5H92V24H24Z" fill="#e8e0d2"/><circle cx="24" cy="49" r="11" fill="#2b2925"/><circle cx="101" cy="49" r="11" fill="#2b2925"/>
+              </g>
+              <g stroke="#24221f" stroke-width="4" fill="none" stroke-linecap="round">
+                <circle cx="610" cy="313" r="12" fill="#d5cdbf"/><path d="M607 327L600 359L622 364L632 341M602 341L582 354M618 340L639 350M604 361L595 384M621 363L630 384"/>
+                <circle cx="669" cy="318" r="11" fill="#d5cdbf"/><path d="M665 330L665 362L684 366L691 346M665 341L649 352M683 343L699 356M667 363L660 385M683 365L690 385"/>
+                <circle cx="190" cy="330" r="10" fill="#d5cdbf"/><path d="M188 341L187 362L201 365L205 347M188 347L174 358M200 348L211 358M189 362L184 380M201 364L207 380"/>
+              </g>
+              <g fill="#2b2925" opacity=".92">
+                <path d="M1044 345H1066V411H1044Z"/><path d="M1038 340H1072L1068 350H1042Z"/><path d="M1042 409H1068L1072 420H1037Z"/><path d="M1041 350H1068V354H1041Z"/>
+                <circle cx="1068" cy="431" r="3"/><path d="M1084 435L1100 426L1106 432L1091 441Z"/><path d="M1042 435L1055 429L1061 435L1048 441Z"/>
+              </g>
+              <path d="M0 0H1200V690H0Z" fill="url(#street-dots)" opacity=".34"/>
+              <path d="M0 0H1200V690H0Z" fill="none" stroke="#211f1c" stroke-width="10"/>
+            </svg>
+            <button class="evidence-pin pin-footpath" type="button" data-evidence="footpath" aria-label="Reveal issue one: a vehicle on the footpath" aria-expanded="false"><span>01</span></button>
+            <button class="evidence-pin pin-ramp" type="button" data-evidence="ramp" aria-label="Reveal issue two: an accessibility ramp is blocked" aria-expanded="false"><span>02</span></button>
+            <button class="evidence-pin pin-crossing" type="button" data-evidence="crossing" aria-label="Reveal issue three: a vehicle blocks the zebra crossing" aria-expanded="false"><span>03</span></button>
+            <button class="evidence-pin pin-litter" type="button" data-evidence="litter" aria-label="Reveal issue four: litter is beside a public bin" aria-expanded="false"><span>04</span></button>
+            <button class="evidence-pin pin-horn" type="button" data-evidence="horn" aria-label="Reveal issue five: a driver is honking" aria-expanded="false"><span>05</span></button>
+            <div class="evidence-caption" id="evidence-caption" aria-live="polite" hidden>
+              <button class="evidence-caption-close" id="evidence-caption-close" type="button" aria-label="Close observation">×</button>
+              <span class="evidence-caption-index" id="evidence-caption-index"></span>
+              <h3 id="evidence-caption-title">ISSUE REVEALED</h3>
+              <p id="evidence-caption-copy"></p>
+            </div>
+          </div>
+          <div class="evidence-footer"><span>FIVE SMALL THINGS</span><span class="evidence-hint"><i aria-hidden="true"></i> TAP A MARKER TO UNCOVER THE REST</span><span>ONE SHARED STREET</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="chapter average-chapter" id="ch-04" data-chapter="4" aria-labelledby="chapter-04-title">
+      <div class="average-grid" aria-hidden="true"></div>
+      <div class="chapter-inner average-inner">
+        <div class="chapter-heading average-heading reveal-on-view">
+          <p class="chapter-index chapter-index--light"><span>04</span> / 10 <i></i> QUESTION</p>
+          <h2 id="chapter-04-title">THE<br><em>AVERAGE</em><br>HUMAN.</h2>
+          <p class="average-deck">Tara follows the timer back to the room where it was set.</p>
+        </div>
+        <div class="control-room reveal-on-view">
+          <div class="monitor-frame">
+            <div class="monitor-topline"><span>TRAFFIC CONTROL · UNIT 04</span><span>LIVE / 08:42</span></div>
+            <div class="monitor-screen">
+              <span class="monitor-crosshair" aria-hidden="true">+</span>
+              <p>AVERAGE<br>PEDESTRIAN</p>
+              <span class="monitor-reading">15 <small>SEC</small></span>
+              <span class="monitor-underbar"></span>
+            </div>
+            <div class="monitor-controls" aria-hidden="true"><i></i><i></i><i></i><span>CALIBRATION / DEFAULT</span></div>
+          </div>
+          <div class="dialogue-stack" id="average-dialogue">
+            <p class="speech-line speech-line--engineer"><span>ENGINEER</span>“Most pedestrians can cross within fifteen seconds.”</p>
+            <p class="speech-line speech-line--tara"><span>TARA</span>“Average?”</p>
+            <p class="speech-line speech-line--tara speech-line--last"><span>TARA</span>“But who is the average pedestrian?”</p>
+          </div>
+        </div>
+        <div class="fracture-panel reveal-on-view" id="fracture-panel">
+          <div class="fracture-title"><span>THE CATEGORY</span><span>BEGINS TO BREAK</span></div>
+          <div class="fracture-word" aria-hidden="true"><span>AVERAGE</span><span>PEDESTRIAN</span></div>
+          <div class="humanity-list" id="humanity-list" aria-live="polite">
+            <span>child</span><span>elderly person</span><span>parent</span><span>wheelchair user</span>
+            <span>injured person</span><span>student</span><span>worker</span><span>tourist</span><span>everyone</span>
+          </div>
+          <button class="ink-button" id="reveal-humanity" type="button" aria-expanded="false">BREAK THE AVERAGE <span aria-hidden="true">↘</span></button>
+          <p class="average-reveal-line" id="average-reveal-line" hidden>THERE IS NO AVERAGE PERSON.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="chapter mirror-chapter" id="ch-05" data-chapter="5" aria-labelledby="chapter-05-title">
+      <div class="mirror-scroll-stage" id="mirror-scroll-stage">
+        <div class="mirror-inner">
+          <div class="mirror-heading">
+            <p class="chapter-index"><span>05</span> / 10 <i></i> THE MIRROR</p>
+            <h2 id="chapter-05-title">THE<br><em>MIRROR.</em></h2>
+            <p class="mirror-instruction">Scroll down. The reflection is closer than it looks.</p>
+          </div>
+          <div class="mirror-wall" id="mirror-wall" role="group" aria-label="Complaints and the actions reflected in them">
+            <div class="mirror-half mirror-half--system">
+              <span class="mirror-label">WHAT WE SAY ABOUT THE SYSTEM</span>
+              <div class="complaint-lines"><p>“Roads are horrible.”</p><p>“Government does nothing.”</p><p>“This city has no discipline.”</p></div>
+              <span class="mirror-scratch" aria-hidden="true"></span>
+            </div>
+            <div class="mirror-seam" aria-hidden="true"><span>TURN THE PAGE</span><i>↓</i></div>
+            <div class="mirror-half mirror-half--us" id="mirror-us">
+              <span class="mirror-label">WHAT THE REFLECTION SHOWS</span>
+              <div class="reflection-grid">
+                <span>FOOTPATH<br><b>BLOCKED</b></span><span>RED LIGHT<br><b>IGNORED</b></span>
+                <span>WRAPPER<br><b>DROPPED</b></span><span>RAMP<br><b>TAKEN</b></span>
+                <span>HORN<br><b>HELD DOWN</b></span><span>QUEUE<br><b>SKIPPED</b></span>
+              </div>
+            </div>
+          </div>
+          <div class="mirror-quote" id="mirror-quote" aria-live="polite">
+            <p>We blamed the system so often<br>that we forgot—</p>
+            <h3>A SYSTEM IS<br>MADE OF PEOPLE.</h3>
+            <p class="mirror-quote-last">And sometimes,<br><em>we are the system.</em></p>
+          </div>
+          <div class="mirror-scroll-mark" aria-hidden="true"><span></span> KEEP LOOKING</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="chapter notebook-chapter paper-chapter" id="ch-06" data-chapter="6" aria-labelledby="chapter-06-title">
+      <div class="chapter-inner notebook-inner">
+        <div class="notebook-heading reveal-on-view">
+          <p class="chapter-index"><span>06</span> / 10 <i></i> TARA'S FIELD NOTES</p>
+          <h2 id="chapter-06-title">THE<br><em>NUMBERS.</em></h2>
+          <p class="chapter-deck">One morning. Five crossings.<br>She starts writing down what she sees.</p>
+        </div>
+        <div class="notebook-workspace reveal-on-view">
+          <div class="notebook-margin" aria-hidden="true"><span>OBSERVATIONS</span><span>NOT ASSUMPTIONS</span><span>07:12 — 08:06</span></div>
+          <article class="notebook-page" id="notebook-page" aria-live="polite" aria-atomic="true">
+            <div class="page-fold" aria-hidden="true"></div>
+            <div class="notebook-page-head"><span>FIELD NOTE / <b id="notebook-page-number">01</b></span><span>✳</span></div>
+            <div class="notebook-page-content">
+              <p class="notebook-time" id="notebook-time">11 <small>SEC</small></p>
+              <h3 class="notebook-person" id="notebook-person">young student</h3>
+              <p class="notebook-note" id="notebook-note">The green figure blinked twice. He was already on the other side.</p>
+            </div>
+            <div class="notebook-scribble" aria-hidden="true">//</div>
+            <div class="notebook-page-foot"><span>THE SAME TIMER.</span><span>DIFFERENT DAYS.</span></div>
+          </article>
+          <div class="notebook-controls">
+            <button class="page-arrow" id="notebook-prev" type="button" aria-label="Previous notebook page" disabled>←</button>
+            <div class="page-indicator" id="notebook-page-indicator"><span>01</span> / 05</div>
+            <button class="page-arrow" id="notebook-next" type="button" aria-label="Next notebook page">→</button>
+            <span class="page-control-note">TURN THE PAGE</span>
+          </div>
+        </div>
+        <div class="notebook-findings reveal-on-view" id="notebook-findings">
+          <div class="findings-heading"><span>WHAT ELSE SHE NOTICED</span><span>REPEATED MOMENTS, ONE MORNING</span></div>
+          <div class="finding-row"><span>FOOTPATH BLOCKED</span><i><b style="--bar-width: 89%"></b></i><span class="finding-mark">/////</span></div>
+          <div class="finding-row"><span>CROSSING BLOCKED</span><i><b style="--bar-width: 72%"></b></i><span class="finding-mark">////</span></div>
+          <div class="finding-row"><span>RAMP BLOCKED</span><i><b style="--bar-width: 83%"></b></i><span class="finding-mark">/////</span></div>
+          <div class="finding-row"><span>RED LIGHT IGNORED</span><i><b style="--bar-width: 94%"></b></i><span class="finding-mark">//////</span></div>
+          <p class="finding-caveat">TARA'S FIELD NOTES, NOT A CITYWIDE SURVEY. SMALL ACTS, REPEATED, BECOME A PATTERN.</p>
+        </div>
+        <p class="notebook-final-note" id="notebook-final-note">“The timer wasn't the problem.<br><strong>The assumption was.</strong>”</p>
+      </div>
+    </section>
+
+    <section class="chapter campaign-chapter" id="ch-07" data-chapter="7" aria-labelledby="chapter-07-title">
+      <div class="chapter-inner campaign-inner">
+        <div class="campaign-heading reveal-on-view">
+          <p class="chapter-index chapter-index--light"><span>07</span> / 10 <i></i> MAKE IT VISIBLE</p>
+          <h2 id="chapter-07-title">GIVE THEM<br><em>15 SECONDS.</em></h2>
+          <p class="campaign-deck">Tara makes a poster small enough to carry.<br>And a request big enough to share.</p>
+        </div>
+        <div class="poster-world reveal-on-view" id="poster-world">
+          <div class="poster-street-bg" aria-hidden="true">
+            <div class="shop-shutter"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            <div class="poster-shadow-person poster-shadow-person--one"></div>
+            <div class="poster-shadow-person poster-shadow-person--two"></div>
+            <div class="poster-reactions" id="poster-reactions" aria-live="polite" hidden>
+              <span>“Someone will tear it down.”</span><span>...</span><span>keeps walking →</span>
+            </div>
+          </div>
+          <div class="poster-table-label">PICK UP THE POSTER</div>
+          <button class="campaign-poster" id="campaign-poster" type="button" aria-label="Pick up the campaign poster and place it on the wall" aria-describedby="poster-instructions">
+            <span class="poster-kicker">A SMALL ASK / A SHARED STREET</span>
+            <span class="poster-title">GIVE THEM<br><b>15 SECONDS.</b></span>
+            <span class="poster-rules"><span>DON'T HONK.</span><span>DON'T BLOCK THE CROSSING.</span><span>DON'T PARK ON THE RAMP.</span></span>
+            <span class="poster-footer">DON'T MAKE SOMEONE ELSE PAY<br>FOR YOUR CONVENIENCE.</span>
+            <span class="poster-stamp" aria-hidden="true">GIVE<br>SPACE</span>
+          </button>
+          <button class="poster-wall-target" id="poster-wall-target" type="button" aria-label="Place the poster on this wall" aria-disabled="true">
+            <span class="wall-crosshair" aria-hidden="true">+</span>
+            <span>PLACE<br>IT HERE</span>
+          </button>
+          <div class="poster-instructions" id="poster-instructions">Drag the poster to the wall, or tap it and then choose “Place poster”.</div>
+          <button class="ink-button poster-place-button" id="poster-place-button" type="button" disabled>PLACE POSTER <span aria-hidden="true">↗</span></button>
+          <div class="poster-response" id="poster-response" hidden>
+            <p class="poster-nobody">For a while, nothing happens.</p>
+            <button class="ink-button poster-wait-button" id="poster-wait-button" type="button">WAIT A MOMENT <span aria-hidden="true">↘</span></button>
+          </div>
+          <div class="poster-result" id="poster-result" aria-live="polite" hidden>
+            <span class="result-stopped" aria-hidden="true">Ⅱ</span>
+            <p>Then one person stops<br>before the crossing.</p>
+            <span class="result-following">Someone else notices.</span>
+          </div>
+          <span class="poster-world-caption">THE FIRST DAY / 07:18 AM</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="chapter second-person-chapter paper-chapter" id="ch-08" data-chapter="8" aria-labelledby="chapter-08-title">
+      <div class="chapter-inner second-person-inner">
+        <div class="second-heading reveal-on-view">
+          <p class="chapter-index"><span>08</span> / 10 <i></i> THE CHAIN REACTION</p>
+          <h2 id="chapter-08-title">THE SECOND<br><em>PERSON.</em></h2>
+          <p class="chapter-deck">No score. No hero.<br>Just a small choice, then another.</p>
+        </div>
+        <div class="chain-experience reveal-on-view">
+          <div class="chain-scene" id="chain-scene" aria-hidden="true">
+            <div class="chain-building"><span>SHARED WAY</span></div>
+            <div class="chain-sidewalk"><div class="ramp-surface"></div><div class="sidewalk-line"></div></div>
+            <div class="chain-road"><span class="chain-lane-mark"></span><span class="chain-lane-mark"></span></div>
+            <div class="chain-car" id="chain-car" aria-hidden="true"><i></i><i></i></div>
+            <div class="motorbike-figure" id="motorbike-figure"><span class="bike-wheel bike-wheel--one"></span><span class="bike-wheel bike-wheel--two"></span><span class="bike-body"></span><span class="bike-rider"></span></div>
+            <div class="chain-person chain-person--one" id="chain-person-one"><span class="person-head"></span><span class="person-body"></span><span class="person-stick"></span></div>
+            <div class="chain-person chain-person--two" id="chain-person-two"><span class="person-head"></span><span class="person-body"></span></div>
+            <div class="chain-person chain-person--three" id="chain-person-three"><span class="person-head"></span><span class="person-body"></span><span class="child-head"></span></div>
+            <div class="chain-stamp" id="chain-stamp">A PATH<br>OPENS</div>
+          </div>
+          <div class="choice-console">
+            <div class="choice-step-mark"><span id="choice-step-number">01</span> / 03 <span class="choice-step-line"></span> <span id="choice-step-label">THE RAMP</span></div>
+            <p class="choice-question" id="choice-question">A motorcyclist pulls onto the ramp.</p>
+            <p class="choice-context" id="choice-context">“Just for a minute,” he says. A pedestrian is coming.</p>
+            <div class="choice-buttons" id="choice-buttons" role="group" aria-label="Choose what happens next">
+              <button class="choice-option choice-option--quiet" type="button" data-choice="wrong">“Just for a minute.”</button>
+              <button class="choice-option choice-option--right" type="button" data-choice="right">“Find another place.”</button>
+            </div>
+            <p class="choice-feedback" id="choice-feedback" role="status" hidden></p>
+          </div>
+          <div class="chain-progress" role="group" aria-label="Small choices that make room for another person">
+            <span class="chain-dot is-current" data-chain-dot="0"><i>01</i><b>RAMP CLEAR</b></span><span class="chain-link"></span>
+            <span class="chain-dot" data-chain-dot="1"><i>02</i><b>STOP BACK</b></span><span class="chain-link"></span>
+            <span class="chain-dot" data-chain-dot="2"><i>03</i><b>WAIT</b></span>
+          </div>
+        </div>
+        <div class="chain-ending" id="chain-ending" aria-live="polite" hidden>
+          <p>ONE PERSON CAN'T<br>CHANGE THE CITY.</p>
+          <span class="chain-beat" aria-hidden="true">· · ·</span>
+          <h3>THE SECOND CAN.</h3>
+        </div>
+      </div>
+    </section>
+
+    <section class="chapter return-chapter" id="ch-09" data-chapter="9" aria-labelledby="chapter-09-title">
+      <div class="return-scroll" id="return-scroll">
+        <div class="return-stage" id="return-stage">
+          <div class="return-backdrop" aria-hidden="true">
+            <img class="return-before" src="assets/crossing-opening.jpg" alt="" loading="lazy" width="1376" height="768">
+            <img class="return-after" src="assets/crossing-return.jpg" alt="" loading="lazy" width="1264" height="848">
+          </div>
+          <div class="return-warmth" aria-hidden="true"></div>
+          <div class="return-copy">
+            <p class="chapter-index chapter-index--light"><span>09</span> / 10 <i></i> THE SAME CROSSING</p>
+            <h2 id="chapter-09-title">THIRTY-<br>FOUR<br><em>SECONDS.</em></h2>
+            <p class="return-copy-line">Not a different street.<br>A different way of sharing it.</p>
+          </div>
+          <div class="return-signal" aria-hidden="true"><span class="return-signal-head"><i></i><i></i><i></i></span><span>WALK</span></div>
+          <div class="return-timer" role="group" aria-label="The new crossing time is 34 seconds"><span>34</span><small>SECONDS</small></div>
+          <div class="return-crossing-lines" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="return-overlay-copy" id="return-overlay-copy" aria-live="polite">
+            <p class="return-first-line">The city finally gave them more time.</p>
+            <p class="return-second-line">But that wasn't the real change.</p>
+            <p class="return-third-line">People stopped stealing time<br>from one another.</p>
+          </div>
+          <div class="return-controls">
+            <label for="crossing-scrubber">MOVE WITH DADU <span id="crossing-progress-label">0%</span></label>
+            <input type="range" id="crossing-scrubber" min="0" max="100" value="0" step="1" aria-label="Move Dadu across the crossing">
+            <p>SCROLL TO WALK WITH HIM <span>·</span> OR USE THE SLIDER</p>
+          </div>
+          <div class="return-calmed" id="return-calmed" aria-live="polite" hidden>NOBODY HONKS.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="chapter city-chapter" id="ch-10" data-chapter="10" aria-labelledby="chapter-10-title">
+      <div class="city-zoom" aria-hidden="true">
+        <div class="city-sun"></div>
+        <div class="city-roof city-roof--far"></div>
+        <div class="city-roof city-roof--mid"></div>
+        <div class="city-roof city-roof--near"></div>
+        <div class="city-road"></div>
+        <div class="city-people"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      </div>
+      <div class="city-shade" aria-hidden="true"></div>
+      <div class="chapter-inner city-inner">
+        <div class="city-heading reveal-on-view">
+          <p class="chapter-index chapter-index--light"><span>10</span> / 10 <i></i> A CITY IS A VERB</p>
+          <p class="city-preface">The crossing becomes a street.<br>The street becomes a neighbourhood.<br>The neighbourhood becomes a city.</p>
+          <h2 id="chapter-10-title">A CITY SHOULD NOT ASK PEOPLE<br>TO BECOME <em>FASTER.</em></h2>
+          <h3>IT SHOULD LEARN<br>TO BECOME <em>FAIRER.</em></h3>
+          <div class="city-civic-lines">
+            <p>A civil society doesn't begin with big laws.</p>
+            <p>It begins with small things<br>we choose <strong>not to do.</strong></p>
+          </div>
+          <p class="city-final-line">DON'T DESIGN FOR THE AVERAGE HUMAN.<br><b>BUILD FOR HUMANITY.</b></p>
+        </div>
+
+        <div class="commitment-panel reveal-on-view" id="commitment-panel">
+          <p class="chapter-index chapter-index--light">THE LAST PANEL <i></i> YOUR TURN</p>
+          <h2>WHAT WILL YOU<br><em>NOT DO TODAY?</em></h2>
+          <p class="commitment-intro">Choose one small thing. Leave it here for the next person.</p>
+          <div class="commitment-choices" role="group" aria-label="Choose a civic commitment">
+            <button class="commitment-choice" type="button" data-commitment="I won't block a footpath." aria-pressed="false"><span class="choice-check" aria-hidden="true"></span>I won't block a footpath.</button>
+            <button class="commitment-choice" type="button" data-commitment="I won't park on an accessibility ramp." aria-pressed="false"><span class="choice-check" aria-hidden="true"></span>I won't park on an accessibility ramp.</button>
+            <button class="commitment-choice" type="button" data-commitment="I won't stop on a zebra crossing." aria-pressed="false"><span class="choice-check" aria-hidden="true"></span>I won't stop on a zebra crossing.</button>
+            <button class="commitment-choice" type="button" data-commitment="I won't honk at someone who needs more time." aria-pressed="false"><span class="choice-check" aria-hidden="true"></span>I won't honk at someone who needs more time.</button>
+            <button class="commitment-choice" type="button" data-commitment="I'll leave public spaces better than I found them." aria-pressed="false"><span class="choice-check" aria-hidden="true"></span>I'll leave public spaces better than I found them.</button>
+          </div>
+          <div class="commitment-output" id="commitment-output" aria-live="polite" hidden>
+            <span class="commitment-label">A NOTE TO THE CITY / ANONYMOUS</span>
+            <p class="commitment-handwriting" id="commitment-handwriting"></p>
+            <span class="commitment-stamp">LEFT HERE<br>WITH CARE</span>
+          </div>
+          <div class="notes-wall-wrap" id="notes-wall-wrap" hidden>
+            <div class="notes-wall-heading"><span>NOTES LEFT IN THIS BROWSER</span><span id="notes-count">01 / A SMALL PROMISE</span></div>
+            <ul class="notes-wall" id="notes-wall" aria-label="Anonymous civic notes saved on this device"></ul>
+            <p class="notes-privacy">Your note stays on this device. No account. No tracking. Nothing is sent anywhere.</p>
+          </div>
+          <p class="empathy-line" id="empathy-line" hidden>MAYBE CIVIC SENSE<br>IS JUST EMPATHY<br><em>MADE VISIBLE.</em></p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="final-page" id="final-page" aria-labelledby="final-page-title">
+      <div class="final-page-grain" aria-hidden="true"></div>
+      <div class="final-page-content">
+        <p class="final-page-overline">A NOTE BEFORE YOU GO</p>
+        <h2 id="final-page-title">“Someone may need the time<br>you are trying to save.”</h2>
+        <span class="final-rule" aria-hidden="true"></span>
+        <p class="final-wordmark">FIFTEEN<br><em>SECONDS</em></p>
+        <p class="final-credit">A STORYVERSE PROJECT<br><span>SDG 11 · SUSTAINABLE CITIES &amp; COMMUNITIES</span></p>
+        <button class="enter-again" id="enter-again" type="button">ENTER THE CITY AGAIN <span aria-hidden="true">↗</span></button>
+      </div>
+      <div class="final-edition">AN INTERACTIVE MANGA · MADE OF SMALL CHOICES</div>
+    </footer>
+  </main>
+
+  <noscript><div class="noscript-note">This interactive story needs JavaScript. Please enable it to walk through the story.</div></noscript>
+</body>
+</html>
